@@ -52,12 +52,9 @@ while True:
         db.set_holding_registers(1, [odrv0.axis1.encoder.vel_estimate*1000]) 
         new_state = db.get_holding_registers(0,16)  
 
-        
-
         if state[8] != new_state[8]:
             state = new_state
-            print("Value of Register has changed to " +str(state))
-            print('prędkość silnika ustawiona na ', state[8])
+            print("motor speed changed: " +str(state[8]))
             odrv0.axis1.controller.input_vel = state[8]
             db.set_holding_registers(1, [1])
         else:
