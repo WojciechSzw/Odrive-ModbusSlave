@@ -12,17 +12,16 @@ except:
 speed = 0
 
 def MotorCalibration(axisNumber):
-    if not odrv0.axis1.motor.is_calibrated and not odrv0.axis1.encoder.is_ready:
+    odrv0.clear_errors()
+    if not odrv0.axis1.motor.is_calibrated or not odrv0.axis1.encoder.is_ready:
         if axisNumber ==1:
-            odrv0.axis1.requested_state = odrive.enums.AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-        if axisNumber == 0:
-            odrv0.axis0.requested_state = odrive.enums.AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-        while not odrv0.axis1.motor.is_calibrated and not odrv0.axis1.encoder.is_ready:
-            print('calibrating...')
-            sleep(1)
-        print('motor calibrated')
-    else:
-        print('motor calibrated')
+            if not odrv0.axis1.motor.is_calibrated and not odrv0.axis1.encoder.is_ready:
+                odrv0.axis1.requested_state = odrive.enums.AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+                print('calibrating...')
+                sleep(40)
+        #if axisNumber == 0:
+        #    odrv0.axis0.requested_state = odrive.enums.AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+    print('motor calibrated')
 
 
 while 1:
